@@ -1,4 +1,4 @@
-package se.lexicon.jpa_assignment_recipes;
+package se.lexicon;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

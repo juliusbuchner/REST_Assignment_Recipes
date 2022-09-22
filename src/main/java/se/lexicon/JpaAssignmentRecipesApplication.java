@@ -1,4 +1,4 @@
-package se.lexicon.jpa_assignment_recipes;
+package se.lexicon;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

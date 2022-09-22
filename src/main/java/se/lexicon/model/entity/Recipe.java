@@ -16,7 +16,7 @@ public class Recipe {
     @OneToMany(cascade = {CascadeType.DETACH, CascadeType.REFRESH}, mappedBy = "recipe")
     private List<RecipeIngredient> recipeIngredients = new ArrayList<>();
 
-    @OneToOne(cascade = {CascadeType.DETACH, CascadeType.REFRESH}, mappedBy = "recipe")
+    @OneToOne(cascade = CascadeType.ALL)
     private RecipeInstruction recipeInstructions;
 
     @ManyToMany(mappedBy = "recipes")
@@ -28,6 +28,7 @@ public class Recipe {
     public Recipe(String recipeName, List<RecipeIngredient> recipeIngredients, RecipeInstruction recipeInstructions, List<RecipeCategory> recipeCategories) {
         this.recipeName = recipeName;
         this.recipeIngredients = recipeIngredients;
+        setRecipeToRecipeIngredients(recipeIngredients);
         this.recipeInstructions = recipeInstructions;
         this.recipeCategories = recipeCategories;
     }
@@ -66,6 +67,10 @@ public class Recipe {
 
     public void addToRecipeCategories(RecipeCategory recipeCategories) {
         this.recipeCategories.add(recipeCategories);
+    }
+
+    public void setRecipeToRecipeIngredients(List<RecipeIngredient> recipeIngredients){
+        getRecipeIngredients().forEach(recipeIngredient -> recipeIngredient.setRecipe(this));
     }
 
     @Override

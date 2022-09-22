@@ -13,7 +13,7 @@ public class RecipeCategory {
 
     private String category;
 
-    @ManyToMany(mappedBy = "recipeCategories")
+    @ManyToMany
     private List<Recipe> recipes = new ArrayList<>();
 
     public RecipeCategory() {
