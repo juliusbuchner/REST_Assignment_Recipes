@@ -10,6 +10,6 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @ToString
 public class IngredientForm {
-    @NotBlank(message = "The ingredient's name must not be empty.")
+    @NotBlank(message = "The ingredient's name can not be blank.")
     private String name;
 }

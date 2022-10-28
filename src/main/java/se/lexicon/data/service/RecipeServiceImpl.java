@@ -5,9 +5,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.lexicon.data.exceptions.ResourceNotFoundException;
 import se.lexicon.data.model.dto.RecipeDto;
+import se.lexicon.data.model.entity.RecipeCategory;
 import se.lexicon.data.model.form.RecipeForm;
 import se.lexicon.data.model.entity.Recipe;
 import se.lexicon.data.repository.RecipeCategoryRepository;
+import se.lexicon.data.repository.RecipeIngredientRepository;
 import se.lexicon.data.repository.RecipeRepository;
 
 import java.util.ArrayList;
@@ -18,9 +20,12 @@ import java.util.Optional;
 public class RecipeServiceImpl implements RecipeService{
     RecipeRepository recipeRepository;
     RecipeCategoryRepository categoryRepository;
+    RecipeIngredientRepository ingredientRepository;
     ModelMapper modelMapper;
-    public RecipeServiceImpl(RecipeRepository recipeRepository, ModelMapper modelMapper){
+    public RecipeServiceImpl(RecipeRepository recipeRepository, RecipeIngredientRepository ingredientRepository, RecipeCategoryRepository categoryRepository, ModelMapper modelMapper){
         this.recipeRepository = recipeRepository;
+        this.ingredientRepository = ingredientRepository;
+        this.categoryRepository = categoryRepository;
         this.modelMapper = modelMapper;
     }
 
@@ -90,5 +95,47 @@ public class RecipeServiceImpl implements RecipeService{
                 () -> new ResourceNotFoundException("Recipe data was not Found")
         );
         return modelMapper.map(foundByCategory, RecipeDto.class);
+    }
+    @Override
+    @Transactional
+    public RecipeDto addCategoryToRecipe(Integer recipeId, Integer categoryId){
+        Optional<Recipe> optionalRecipe = recipeRepository.findById(recipeId);
+        Recipe recipe = optionalRecipe.get();
+        if (!recipe.getRecipeCategories().contains(categoryRepository.findById(categoryId))){
+            recipe.addToRecipeCategories(categoryRepository.findById(categoryId).get());
+            recipeRepository.save(recipe);
+        }
+        return modelMapper.map(recipe, RecipeDto.class);
+    }
+    @Override
+    @Transactional
+    public RecipeDto removeCategoryFromRecipe(Integer recipeId, Integer categoryId){
+        Recipe recipe = recipeRepository.findById(recipeId).orElseThrow( () -> new ResourceNotFoundException("Recipe Not found"));
+        RecipeCategory category = categoryRepository.findById(categoryId).orElseThrow( () -> new ResourceNotFoundException("Category Not found"));
+
+        recipe.removeFromRecipeCategories(category);
+        return modelMapper.map(recipe, RecipeDto.class);
+    }
+    @Override
+    @Transactional
+    public RecipeDto addRecipeIngredientToRecipe(Integer recipeId, Integer ingredientId){
+        Optional<Recipe> optionalRecipe = recipeRepository.findById(recipeId);
+        Recipe recipe = optionalRecipe.get();
+        if (!recipe.getRecipeIngredients().contains(ingredientRepository.findById(ingredientId))){
+            recipe.addToListOfRecipeIngredients(ingredientRepository.findById(ingredientId).get());
+            recipeRepository.save(recipe);
+        }
+        return modelMapper.map(recipe, RecipeDto.class);
+    }
+    @Override
+    @Transactional
+    public RecipeDto removeRecipeIngredientFromRecipe(Integer recipeId, Integer ingredientId){
+        Optional<Recipe> optionalRecipe = recipeRepository.findById(recipeId);
+        Recipe recipe = optionalRecipe.get();
+        if (recipe.getRecipeIngredients().contains(ingredientRepository.getReferenceById(ingredientId))){
+            recipe.removeFromListOfRecipeIngredients(ingredientRepository.findById(ingredientId).get());
+            recipeRepository.save(recipe);
+        }
+        return modelMapper.map(recipe, RecipeDto.class);
     }
 }

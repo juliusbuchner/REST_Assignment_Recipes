@@ -3,9 +3,9 @@ package se.lexicon.data.model.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -20,8 +20,8 @@ public class RecipeCategory {
 
     private String category;
 
-    @ManyToMany
-    private List<Recipe> recipes = new ArrayList<>();
+    @ManyToMany(mappedBy = "recipeCategories")
+    private List<Recipe> recipes;
 
 
     public RecipeCategory(String category) {

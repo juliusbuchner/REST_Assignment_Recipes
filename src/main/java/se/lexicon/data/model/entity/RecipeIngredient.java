@@ -23,7 +23,7 @@ public class RecipeIngredient {
 
     private Measurement measurement;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.REFRESH})
     private Recipe recipe;
 
 

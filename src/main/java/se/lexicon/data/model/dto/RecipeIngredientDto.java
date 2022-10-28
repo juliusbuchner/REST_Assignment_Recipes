@@ -15,5 +15,5 @@ public class RecipeIngredientDto {
     private Ingredient ingredient;
     private double measuredAmount;
     private Measurement measurement;
-    private Recipe recipe;
+    private RecipeDtoSmall recipe;
 }
