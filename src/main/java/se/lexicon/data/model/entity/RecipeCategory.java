@@ -1,10 +1,17 @@
-package se.lexicon.model.entity;
+package se.lexicon.data.model.entity;
+
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 @Entity
 public class RecipeCategory {
     @Id
@@ -16,30 +23,12 @@ public class RecipeCategory {
     @ManyToMany
     private List<Recipe> recipes = new ArrayList<>();
 
-    public RecipeCategory() {
-    }
 
     public RecipeCategory(String category) {
         this.category = category;
     }
 
-    public Integer getCategoryId() {
-        return categoryId;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public List<Recipe> getRecipes() {
-        return recipes;
-    }
-
-    public void setRecipe(Recipe recipe) {
+    public void addRecipe(Recipe recipe) {
         this.recipes.add(recipe);
     }
     public void removeRecipe(Recipe recipe){
@@ -57,14 +46,5 @@ public class RecipeCategory {
     @Override
     public int hashCode() {
         return Objects.hash(categoryId, category, recipes);
-    }
-
-    @Override
-    public String toString() {
-        return "RecipeCategory{" +
-                "categoryId=" + categoryId +
-                ", category='" + category + '\'' +
-                ", recipes=" + recipes +
-                '}';
     }
 }

@@ -1,7 +1,9 @@
 package se.lexicon.data.repository;
 
-import org.springframework.data.repository.CrudRepository;
-import se.lexicon.model.entity.RecipeInstruction;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import se.lexicon.data.model.entity.RecipeInstruction;
 
-public interface RecipeInstructionsRepository extends CrudRepository<RecipeInstruction, Integer> {
+public interface RecipeInstructionsRepository extends JpaRepository<RecipeInstruction, Integer> {
 }

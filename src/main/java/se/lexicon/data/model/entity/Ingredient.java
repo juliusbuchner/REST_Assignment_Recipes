@@ -1,8 +1,15 @@
-package se.lexicon.model.entity;
+package se.lexicon.data.model.entity;
+
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Objects;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 @Entity
 public class Ingredient {
     @Id
@@ -12,22 +19,7 @@ public class Ingredient {
     @Column(nullable = false, unique = true)
     private String name;
 
-    public Ingredient() {
-    }
-
     public Ingredient(String name) {
-        this.name = name;
-    }
-
-    public Integer getIngredientId() {
-        return ingredientId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
         this.name = name;
     }
 
@@ -42,13 +34,5 @@ public class Ingredient {
     @Override
     public int hashCode() {
         return Objects.hash(ingredientId, name);
-    }
-
-    @Override
-    public String toString() {
-        return "Ingredient{" +
-                "id=" + ingredientId +
-                ", name='" + name + '\'' +
-                '}';
     }
 }

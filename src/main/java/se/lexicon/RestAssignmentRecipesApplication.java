@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class JpaAssignmentRecipesApplication {
+public class RestAssignmentRecipesApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(JpaAssignmentRecipesApplication.class, args);
+        SpringApplication.run(RestAssignmentRecipesApplication.class, args);
     }
 
 }

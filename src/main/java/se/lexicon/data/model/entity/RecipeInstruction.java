@@ -1,4 +1,6 @@
-package se.lexicon.model.entity;
+package se.lexicon.data.model.entity;
+
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -6,32 +8,20 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.Objects;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 @Entity
 public class RecipeInstruction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer instructionId;
+    private String instructionId;
 
     private String instructions;
 
-    public RecipeInstruction() {
-    }
-
-    public RecipeInstruction(String instructions) {
-        this.instructions = instructions;
-    }
-
-    public Integer getInstructionId() {
-        return instructionId;
-    }
-
-    public String getInstructions() {
-        return instructions;
-    }
-
-    public void setInstructions(String instructions) {
-        this.instructions = instructions;
-    }
+    public RecipeInstruction(String instructions){setInstructions(instructions);}
 
     @Override
     public boolean equals(Object o) {
@@ -44,13 +34,5 @@ public class RecipeInstruction {
     @Override
     public int hashCode() {
         return Objects.hash(instructionId, instructions);
-    }
-
-    @Override
-    public String toString() {
-        return "RecipeInstruction{" +
-                "instructionId=" + instructionId +
-                ", instructions='" + instructions + '\'' +
-                '}';
     }
 }

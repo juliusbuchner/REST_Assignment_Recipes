@@ -1,16 +1,24 @@
-package se.lexicon.model.entity;
+package se.lexicon.data.model.entity;
+
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 @Entity
 public class Recipe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer recipeId;
 
+    @Column(unique = true)
     private String recipeName;
 
     @OneToMany(cascade = {CascadeType.DETACH, CascadeType.REFRESH}, mappedBy = "recipe")
@@ -22,9 +30,6 @@ public class Recipe {
     @ManyToMany(mappedBy = "recipes")
     private List<RecipeCategory> recipeCategories = new ArrayList<>();
 
-    public Recipe() {
-    }
-
     public Recipe(String recipeName, List<RecipeIngredient> recipeIngredients, RecipeInstruction recipeInstructions, List<RecipeCategory> recipeCategories) {
         this.recipeName = recipeName;
         this.recipeIngredients = recipeIngredients;
@@ -33,36 +38,8 @@ public class Recipe {
         this.recipeCategories = recipeCategories;
     }
 
-    public Integer getRecipeId() {
-        return recipeId;
-    }
-
-    public String getRecipeName() {
-        return recipeName;
-    }
-
-    public void setRecipeName(String recipeName) {
-        this.recipeName = recipeName;
-    }
-
-    public List<RecipeIngredient> getRecipeIngredients() {
-        return recipeIngredients;
-    }
-
     public void addRecipeIngredients(RecipeIngredient recipeIngredients) {
         this.recipeIngredients.add(recipeIngredients);
-    }
-
-    public RecipeInstruction getRecipeInstructions() {
-        return recipeInstructions;
-    }
-
-    public void setRecipeInstructions(RecipeInstruction recipeInstructions) {
-        this.recipeInstructions = recipeInstructions;
-    }
-
-    public List<RecipeCategory> getRecipeCategories() {
-        return recipeCategories;
     }
 
     public void addToRecipeCategories(RecipeCategory recipeCategories) {
@@ -84,16 +61,5 @@ public class Recipe {
     @Override
     public int hashCode() {
         return Objects.hash(recipeId, recipeName, recipeIngredients, recipeInstructions, recipeCategories);
-    }
-
-    @Override
-    public String toString() {
-        return "Recipe{" +
-                "recipeId=" + recipeId +
-                ", recipeName='" + recipeName + '\'' +
-                ", recipeCategories=" + recipeCategories +
-                ", recipeIngredients=" + recipeIngredients +
-                ", recipeInstructions=" + recipeInstructions +
-                '}';
     }
 }
